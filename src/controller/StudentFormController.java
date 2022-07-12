@@ -24,7 +24,7 @@ import java.sql.SQLException;
 
 public class StudentFormController {
     public JFXButton btnSaveUpdate;
-    public TableView<Student> tbnStudent;
+    public TableView<Student> tblStudent;
     public JFXTextField txtName;
     public JFXTextField txtEmail;
     public JFXTextField txtContact;
@@ -35,7 +35,8 @@ public class StudentFormController {
     public Label lblId;
 
     public void initialize(){
-        loadTable();
+        generateId();
+       loadTable();
 
         btnNew.setOnMouseClicked(event -> {
             deleteStudent();
@@ -53,6 +54,17 @@ public class StudentFormController {
         });
     }
 
+    private void generateId() {
+        try {
+            ResultSet resultSet = CrudUtil.execute("SELECT student_id FROM Student ORDER BY student_id DESC Limit 1");
+            resultSet.next();
+            int lastId = Integer.parseInt(resultSet.getString(1).replace("S","")) + 1;
+            lblId.setText(String.format("S%03d",lastId));
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     private void deleteStudent() {
         try {
             if (CrudUtil.execute("DELETE FROM Student WHERE student_id=?",lblId.getText()))
@@ -67,13 +79,12 @@ public class StudentFormController {
 
     private void loadTable() {
         btnDelete.setDisable(true);
-        tbnStudent.getColumns().clear();
-        tbnStudent.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
-        tbnStudent.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("name"));
-        tbnStudent.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("email"));
-        tbnStudent.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("contact"));
-        tbnStudent.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("address"));
-        tbnStudent.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("nic"));
+        tblStudent.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
+        tblStudent.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("name"));
+        tblStudent.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("email"));
+        tblStudent.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("contact"));
+        tblStudent.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("address"));
+        tblStudent.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("nic"));
 
         ObservableList<Student> students = FXCollections.observableArrayList();
         try {
@@ -92,7 +103,7 @@ public class StudentFormController {
             throwables.printStackTrace();
         }
 
-        tbnStudent.setItems(students);
+        tblStudent.setItems(students);
     }
 
     private void updateStudent() {
@@ -105,6 +116,8 @@ public class StudentFormController {
                     txtAddress.getText(),
                     txtNic.getText())){
                 new Alert(Alert.AlertType.INFORMATION,"Updated!").show();
+                loadTable();
+                btnNew.fire();
             }else
                 new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
         } catch (SQLException | ClassNotFoundException throwables) {
