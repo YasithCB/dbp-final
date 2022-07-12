@@ -21,10 +21,10 @@ public class DashboardFormController {
     public JFXButton btnStudent;
     public AnchorPane apnMain;
 
-    public void initialize(){
+    public void initialize() {
         btnStudent.setOnMouseClicked(event -> {
             try {
-                changeUi(apnMain,"StudentForm");
+                changeUi(apnMain, "StudentForm");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -33,7 +33,7 @@ public class DashboardFormController {
 
     private void changeUi(AnchorPane apn, String location) throws IOException {
         Stage stage = (Stage) apn.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("../view/"+location+".fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../view/" + location + ".fxml"));
         stage.setScene(new Scene(root));
         stage.centerOnScreen();
         stage.show();

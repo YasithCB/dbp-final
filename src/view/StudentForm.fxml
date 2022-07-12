@@ -64,14 +64,14 @@
             <Cursor fx:constant="HAND" />
          </cursor></JFXButton>
       <JFXTextField fx:id="txtSearch" labelFloat="true" layoutX="145.0" layoutY="238.0" onKeyReleased="#txtSearchOKR" prefHeight="25.0" prefWidth="387.0" promptText="Search Students" />
-      <ImageView fitHeight="42.0" fitWidth="17.0" layoutX="531.0" layoutY="247.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../asssets/search.png" />
-         </image>
-      </ImageView>
       <ImageView fitHeight="42.0" fitWidth="17.0" layoutX="616.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../asssets/addBlack.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="26.0" fitWidth="17.0" layoutX="513.0" layoutY="245.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asssets/search.png" />
          </image>
       </ImageView>
    </children>

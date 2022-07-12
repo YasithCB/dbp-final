@@ -48,7 +48,7 @@ public class StudentFormController {
     public AnchorPane apnStudent;
     public JFXTextField txtSearch;
 
-    public void initialize(){
+    public void initialize() {
         generateId();
         autoFillData();
         loadTable();
@@ -84,7 +84,7 @@ public class StudentFormController {
 
     private void autoFillData() {
         tblStudent.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null){
+            if (newValue != null) {
                 btnDelete.setDisable(false);
                 btnSaveUpdate.setText("Update");
 
@@ -95,7 +95,7 @@ public class StudentFormController {
                 txtContact.setText(newValue.getContact());
                 txtNic.setText(newValue.getNic());
 
-            }else {
+            } else {
                 btnDelete.setDisable(true);
                 btnSaveUpdate.setText("Save");
                 generateId();
@@ -117,8 +117,8 @@ public class StudentFormController {
         try {
             ResultSet resultSet = CrudUtil.execute("SELECT student_id FROM Student ORDER BY student_id DESC Limit 1");
             resultSet.next();
-            int lastId = Integer.parseInt(resultSet.getString(1).replace("S","")) + 1;
-            lblId.setText(String.format("S%03d",lastId));
+            int lastId = Integer.parseInt(resultSet.getString(1).replace("S", "")) + 1;
+            lblId.setText(String.format("S%03d", lastId));
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -126,14 +126,13 @@ public class StudentFormController {
 
     private void deleteStudent() {
         try {
-            if (CrudUtil.execute("DELETE FROM Student WHERE student_id=?",lblId.getText())) {
+            if (CrudUtil.execute("DELETE FROM Student WHERE student_id=?", lblId.getText())) {
                 new Alert(Alert.AlertType.INFORMATION, "Deleted!").show();
                 clearData();
                 loadTable();
                 generateId();
-            }
-            else
-                new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
+            } else
+                new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
 
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
@@ -179,12 +178,12 @@ public class StudentFormController {
                     txtContact.getText(),
                     txtAddress.getText(),
                     txtNic.getText(),
-                    lblId.getText())){
-                new Alert(Alert.AlertType.INFORMATION,"Updated!").show();
+                    lblId.getText())) {
+                new Alert(Alert.AlertType.INFORMATION, "Updated!").show();
                 loadTable();
                 clearData();
-            }else
-                new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
+            } else
+                new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -198,21 +197,21 @@ public class StudentFormController {
                     txtEmail.getText(),
                     txtContact.getText(),
                     txtAddress.getText(),
-                    txtNic.getText())){
-                new Alert(Alert.AlertType.INFORMATION,"Saved!").show();
+                    txtNic.getText())) {
+                new Alert(Alert.AlertType.INFORMATION, "Saved!").show();
 
                 clearData();
                 loadTable();
                 generateId();
-            }else
-                new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
+            } else
+                new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
     }
 
     public void txtSearchOKR(KeyEvent keyEvent) {
-        if (!txtSearch.getText().equals("")){
+        if (!txtSearch.getText().equals("")) {
             tblStudent.getItems().clear();
             try {
                 ArrayList<Student> students = new ArrayList<>();
@@ -228,14 +227,14 @@ public class StudentFormController {
                     ));
                 }
                 for (Student student : students) {
-                    if (student.getName().toLowerCase().startsWith(txtSearch.getText().toLowerCase())){
+                    if (student.getName().toLowerCase().startsWith(txtSearch.getText().toLowerCase())) {
                         tblStudent.getItems().add(student);
                     }
                 }
             } catch (SQLException | ClassNotFoundException throwables) {
                 throwables.printStackTrace();
             }
-        }else
+        } else
             loadTable();
     }
 }
