@@ -6,13 +6,20 @@ import db.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import model.Student;
 import util.CrudUtil;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -33,6 +40,8 @@ public class StudentFormController {
     public JFXButton btnNew;
     public JFXButton btnDelete;
     public Label lblId;
+    public ImageView imgIjse;
+    public AnchorPane apnStudent;
 
     public void initialize(){
         generateId();
@@ -52,6 +61,19 @@ public class StudentFormController {
 
         btnDelete.setOnMouseClicked(event -> {
             deleteStudent();
+        });
+
+        imgIjse.setOnMouseClicked(event -> {
+            Stage stage = (Stage) apnStudent.getScene().getWindow();
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("../view/DashboardForm.fxml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stage.setScene(new Scene(root));
+            stage.centerOnScreen();
+            stage.show();
         });
     }
 
@@ -185,4 +207,6 @@ public class StudentFormController {
     }
 
 
+    public void txtSerachOKR(KeyEvent keyEvent) {
+    }
 }
