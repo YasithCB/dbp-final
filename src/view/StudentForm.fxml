@@ -38,7 +38,7 @@
             <Font name="System Italic" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="111.0" layoutY="76.0" prefHeight="17.0" prefWidth="57.0" text="S001">
+      <Label fx:id="lblId" layoutX="111.0" layoutY="76.0" prefHeight="17.0" prefWidth="57.0" text="S001">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
