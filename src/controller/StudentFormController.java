@@ -36,10 +36,11 @@ public class StudentFormController {
 
     public void initialize(){
         generateId();
-       loadTable();
+        autoFillData();
+        loadTable();
 
         btnNew.setOnMouseClicked(event -> {
-            deleteStudent();
+            clearData();
         });
 
         btnSaveUpdate.setOnMouseClicked(event -> {
@@ -50,8 +51,39 @@ public class StudentFormController {
         });
 
         btnDelete.setOnMouseClicked(event -> {
-
+            deleteStudent();
         });
+    }
+
+    private void autoFillData() {
+        tblStudent.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null){
+                btnDelete.setDisable(false);
+                btnSaveUpdate.setText("Update");
+
+                lblId.setText(newValue.getId());
+                txtName.setText(newValue.getName());
+                txtAddress.setText(newValue.getAddress());
+                txtEmail.setText(newValue.getEmail());
+                txtContact.setText(newValue.getContact());
+                txtNic.setText(newValue.getNic());
+
+            }else {
+                btnDelete.setDisable(true);
+                btnSaveUpdate.setText("Save");
+                generateId();
+            }
+        });
+    }
+
+    private void clearData() {
+        tblStudent.getSelectionModel().clearSelection();
+        generateId();
+        txtName.setText("");
+        txtNic.setText("");
+        txtAddress.setText("");
+        txtContact.setText("");
+        txtEmail.setText("");
     }
 
     private void generateId() {
@@ -67,14 +99,20 @@ public class StudentFormController {
 
     private void deleteStudent() {
         try {
-            if (CrudUtil.execute("DELETE FROM Student WHERE student_id=?",lblId.getText()))
-                new Alert(Alert.AlertType.INFORMATION,"Deleted!").show();
+            if (CrudUtil.execute("DELETE FROM Student WHERE student_id=?",lblId.getText())) {
+                new Alert(Alert.AlertType.INFORMATION, "Deleted!").show();
+                clearData();
+                loadTable();
+                generateId();
+            }
             else
                 new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
 
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
+        clearData();
+        loadTable();
     }
 
     private void loadTable() {
@@ -108,16 +146,16 @@ public class StudentFormController {
 
     private void updateStudent() {
         try {
-            if (CrudUtil.execute("UPDATE Student SET student_id=?, student_name=?, email=?, contact=?, address=?, nic=?",
-                    lblId.getText(),
+            if (CrudUtil.execute("UPDATE Student SET student_name=?, email=?, contact=?, address=?, nic=? WHERE student_id=?",
                     txtName.getText(),
                     txtEmail.getText(),
                     txtContact.getText(),
                     txtAddress.getText(),
-                    txtNic.getText())){
+                    txtNic.getText(),
+                    lblId.getText())){
                 new Alert(Alert.AlertType.INFORMATION,"Updated!").show();
                 loadTable();
-                btnNew.fire();
+                clearData();
             }else
                 new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
         } catch (SQLException | ClassNotFoundException throwables) {
@@ -135,6 +173,10 @@ public class StudentFormController {
                     txtAddress.getText(),
                     txtNic.getText())){
                 new Alert(Alert.AlertType.INFORMATION,"Saved!").show();
+
+                clearData();
+                loadTable();
+                generateId();
             }else
                 new Alert(Alert.AlertType.ERROR,"Something went wrong!").show();
         } catch (SQLException | ClassNotFoundException throwables) {
