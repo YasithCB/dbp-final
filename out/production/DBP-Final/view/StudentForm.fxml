@@ -10,10 +10,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: white;" stylesheets="@../asssets/style/css.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StudentFormController">
+<AnchorPane fx:id="apnStudent" prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: white;" stylesheets="@../asssets/style/css.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StudentFormController">
    <children>
-      <JFXButton fx:id="btnSaveUpdate" buttonType="RAISED" layoutX="452.0" layoutY="173.0" prefHeight="26.0" prefWidth="138.0" styleClass="btn" text="Save" />
-      <ImageView fitHeight="26.0" fitWidth="121.0" layoutX="34.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+      <JFXButton fx:id="btnSaveUpdate" buttonType="RAISED" layoutX="452.0" layoutY="173.0" prefHeight="10.0" prefWidth="138.0" styleClass="btn" text="Save" />
+      <ImageView fx:id="imgIjse" fitHeight="26.0" fitWidth="121.0" layoutX="38.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../asssets/ijse.png" />
          </image>
@@ -48,7 +48,13 @@
       <JFXTextField fx:id="txtContact" labelFloat="true" layoutX="238.0" layoutY="118.0" prefHeight="25.0" prefWidth="186.0" promptText="Contact" />
       <JFXTextField fx:id="txtAddress" labelFloat="true" layoutX="238.0" layoutY="166.0" prefHeight="25.0" prefWidth="186.0" promptText="Address" />
       <JFXTextField fx:id="txtNic" labelFloat="true" layoutX="452.0" layoutY="118.0" prefHeight="25.0" prefWidth="186.0" promptText="NIC" />
-      <JFXButton fx:id="btnNew" buttonType="RAISED" layoutX="660.0" layoutY="27.0" prefHeight="26.0" prefWidth="64.0" styleClass="btn" text="New+" />
-      <JFXButton fx:id="btnDelete" buttonType="RAISED" layoutX="601.0" layoutY="173.0" prefHeight="26.0" prefWidth="64.0" styleClass="btn" text="Delete" />
+      <JFXButton fx:id="btnNew" buttonType="RAISED" layoutX="644.0" layoutY="27.0" prefHeight="25.0" prefWidth="80.0" styleClass="btn" text="New" />
+      <JFXButton fx:id="btnDelete" buttonType="RAISED" layoutX="601.0" layoutY="173.0" prefHeight="1.0" prefWidth="64.0" styleClass="btn" text="Delete" />
+      <JFXTextField fx:id="txtSearch" labelFloat="true" layoutX="145.0" layoutY="238.0" onKeyReleased="#txtSearchOKR" prefHeight="25.0" prefWidth="387.0" promptText="Search Students" />
+      <ImageView fitHeight="42.0" fitWidth="17.0" layoutX="531.0" layoutY="247.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../asssets/search.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

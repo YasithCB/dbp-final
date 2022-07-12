@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -22,6 +23,9 @@ import util.CrudUtil;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * author  Yasith C Bandara
@@ -42,6 +46,7 @@ public class StudentFormController {
     public Label lblId;
     public ImageView imgIjse;
     public AnchorPane apnStudent;
+    public JFXTextField txtSearch;
 
     public void initialize(){
         generateId();
@@ -207,6 +212,31 @@ public class StudentFormController {
     }
 
 
-    public void txtSerachOKR(KeyEvent keyEvent) {
+    public void txtSearchOKR(KeyEvent keyEvent) {
+        if (!txtSearch.getText().equals("")){
+            tblStudent.getItems().clear();
+            try {
+                ArrayList<Student> students = new ArrayList<>();
+                ResultSet resultSet = CrudUtil.execute("SELECT * FROM Student");
+                while (resultSet.next()) {
+                    students.add(new Student(
+                            resultSet.getString(1),
+                            resultSet.getString(2),
+                            resultSet.getString(3),
+                            resultSet.getString(4),
+                            resultSet.getString(5),
+                            resultSet.getString(6)
+                    ));
+                }
+                for (Student student : students) {
+                    if (student.getName().toLowerCase().startsWith(txtSearch.getText().toLowerCase())){
+                        tblStudent.getItems().add(student);
+                    }
+                }
+            } catch (SQLException | ClassNotFoundException throwables) {
+                throwables.printStackTrace();
+            }
+        }else
+            loadTable();
     }
 }
