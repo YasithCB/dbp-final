@@ -211,7 +211,6 @@ public class StudentFormController {
         }
     }
 
-
     public void txtSearchOKR(KeyEvent keyEvent) {
         if (!txtSearch.getText().equals("")){
             tblStudent.getItems().clear();
